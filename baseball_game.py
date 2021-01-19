@@ -91,10 +91,10 @@ def is_duplicated_number(three_digit):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
 
-    result = True
+    result = False
     three_digit_list = [i for i in three_digit]
     if len(set(three_digit_list)) < 3 :
-        result = False
+        result = True
     # ==================================
     return result
 
@@ -121,10 +121,10 @@ def is_validated_number(user_input_number):
     # '''
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
-    result = True
-    if not(is_digit(user_input_number) and is_between_100_and_999(user_input_number) 
-        and is_duplicated_number(user_input_number)) :
-        result = False
+    result = False
+    if is_digit(user_input_number) and is_between_100_and_999(user_input_number) and \
+       not is_duplicated_number(user_input_number) :
+        result = True
     # ==================================
     return result
 
@@ -265,7 +265,7 @@ def is_no(one_more_input):
 
     result = False
     one_more_input = one_more_input.lower()
-    if one_more_input == "n" or one_more_input == "N" :
+    if one_more_input == "n" or one_more_input == "no" :
         result = True
     # ==================================
     return result
@@ -280,25 +280,28 @@ def main():
         user_input = input("Input guess number : ")
         if user_input == '0' :
             break
+
         if not is_validated_number(user_input) :
             print("Wrong Input, Input again")
+
         else :
-            sb = get_strikes_or_ball(user_input, random_number)
-            if (sb[0] != 3) :
-                print("Strike : {} , Ball : {}".format(sb[0], sb[1]))
-            else :
-                while True :
-                    one_more_input = input("You win, one more(Y/N)?")
-                    if (is_yes(one_more_input)) :
-                        main()
-                        break
-                    elif (is_no(one_more_input)) :
-                        print("Thank you for using this program")
-                        print("End of the Game")
-                        break
-                    else :
-                        print("Wrong Input, Input again")
-                break
+            strike, ball = get_strikes_or_ball(user_input, random_number)
+            print("Strike : {} , Ball : {}".format(strike, ball))
+            if strike ==3 :
+                one_more_input = input("You win, one more(Y/N)?")
+                while not is_yes(one_more_input) and not is_no(one_more_input) :
+                    print("Wrong Input, Input again")
+                    one_more_input = input("You win, one more(Y/N)?") 
+
+                if (is_yes(one_more_input)) :
+                    random_number = str(get_not_duplicated_three_digit_number())
+                    print("Random Number is : ", random_number)
+
+                elif (is_no(one_more_input)) :
+                    break
+    
+    print("Thank you for using this program")
+    print("End of the Game")
     # ===Modify codes below=============
     # 위의 코드를 포함하여 자유로운 수정이 가능함
     # ==================================
