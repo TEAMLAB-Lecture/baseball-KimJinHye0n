@@ -286,8 +286,8 @@ def main():
 
         else :
             strike, ball = get_strikes_or_ball(user_input, random_number)
-            print("Strike : {} , Ball : {}".format(strike, ball))
-            if strike ==3 :
+            print("Strikes : {} , Balls : {}".format(strike, ball))
+            if strike == 3 :
                 one_more_input = input("You win, one more(Y/N)?")
                 while not is_yes(one_more_input) and not is_no(one_more_input) :
                     print("Wrong Input, Input again")
